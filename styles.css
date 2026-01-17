@@ -1,0 +1,558 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: #222;
+  background: linear-gradient(180deg, #aad5ff 0%, #ff8181 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  line-height: 1.6;
+  transition: background 0.5s ease-in-out;
+  min-height: 100vh;
+}
+
+/* Container centralizador */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Cabeçalho */
+header {
+  background: rgba(255, 255, 255, 0.85);
+  color: rgb(9, 0, 78);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  border-radius: 15px; /* aqui! */
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo img {
+  height: 100px;
+}
+
+/* Navegação */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+nav ul li a {
+  color: rgb(0, 24, 104);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+  color: #ff003b;
+  outline: none;
+}
+
+/* Botão mobile menu */
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.mobile-menu-btn span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* Mostrar menu mobile */
+.nav-menu.show {
+  display: flex !important;
+  flex-direction: column;
+  background: rgba(0,0,30,0.95);
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid img {
+    height: 180px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .service-card p {
+    font-size: 0.95rem;
+  }
+
+  .about-section h2 {
+    font-size: 2rem;
+  }
+
+  .about-section h3 {
+    font-size: 1.5rem;
+  }
+
+  .about-section p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+}
+
+
+
+/* Seções com fundo pastel e sombra suave para melhor integração */
+
+section {
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  max-width: 1000px;
+  margin: 40px auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  backdrop-filter: saturate(180%) blur(12px);
+  transition: background-color 0.5s ease;
+}
+
+/* Fundo variando tons pastéis para cada seção */
+
+#agendamento {
+  background: white !;
+  border-radius: 15px; /* para manter cantos arredondados */
+  padding: 60px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* opcional, para dar profundidade */
+  color: #222; /* garantir texto escuro para contraste */
+}
+
+
+.hero {
+  background: rgba(255, 255, 255, 0.9); /* azul pastel */
+  box-shadow: 0 10px 30px rgba(0, 64, 128, 0.15);
+  padding: 100px 20px 80px 20px;
+  border-radius: 20px;
+  margin-top: 40px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 5rem;
+  margin-bottom: 15px;
+  color: #003366;
+}
+
+.hero .highlight {
+  color: #b3003b;
+  letter-spacing: 2px;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.about-section {
+  background: rgba(255, 255, 255, 0.9); /* azul pastel mais claro */
+}
+
+.gallery-section {
+  background: rgba(255, 255, 255, 0.9); /* rosa pastel */
+}
+
+.services {
+  background: rgba(255, 255, 255, 0.9); /* azul muito claro pastel */
+}
+
+.section-agendamento {
+  background: rgba(255, 255, 255, 0.9); /* azul pastel */
+}
+
+.reviews-section {
+  background: rgba(255, 255, 255, 0.9); /* rosa suave pastel */
+}
+
+.contact {
+  background: rgba(255, 255, 255, 0.9); /* branco suave */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Títulos das seções */
+h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  color: #003366;
+  text-align: center;
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 30px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  border: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: #005bbb;
+  color: white;
+  box-shadow: 0 6px 15px rgba(0, 91, 187, 0.4);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #003366;
+  outline: none;
+  box-shadow: 0 8px 25px rgba(0, 51, 102, 0.7);
+}
+
+.btn-secondary {
+  background-color: #b3003b;
+  color: white;
+  box-shadow: 0 6px 15px rgba(179, 0, 59, 0.4);
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: #80002a;
+  outline: none;
+  box-shadow: 0 8px 25px rgba(128, 0, 42, 0.7);
+}
+
+/* Cards dos serviços */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+
+.service-card {
+  background: rgba(220, 229, 250, 0.95);
+  padding: 20px 25px;
+  border-radius: 20px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  color: #003366;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover,
+.service-card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 91, 187, 0.25);
+  outline: none;
+}
+
+.service-card h3 {
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+
+.service-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+/* Galeria */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 18px;
+}
+
+/* Avaliações */
+.reviews-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.review {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 18px 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+  font-style: italic;
+  color: #222;
+  transition: box-shadow 0.3s ease;
+}
+
+.review:focus {
+  box-shadow: 0 8px 28px rgba(0, 91, 187, 0.4);
+  outline: none;
+}
+
+.review .author {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #005bbb;
+  font-style: normal;
+  text-align: right;
+}
+
+/* Contato */
+.contact p {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.contact a {
+  color: #005bbb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.contact a:hover,
+.contact a:focus {
+  color: #003366;
+  outline: none;
+}
+
+/* Redes sociais */
+.social-links {
+  margin-top: 15px;
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+}
+
+.social-icon {
+  color: #005bbb;
+  font-size: 1.9rem;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover,
+.social-icon:focus {
+  color: #b3003b;
+  outline: none;
+}
+
+/* Mapa */
+.map-container iframe {
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Footer */
+footer {
+  background: rgba(0, 0, 30, 0.85);
+  color: #eee;
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+  margin-top: 60px;
+}
+
+.about-section {
+  text-align: center; /* Centraliza horizontalmente */
+  padding: 50px 20px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.about-section h2 {
+  font-size: 3rem;
+  color: #0D3B66;
+  margin-bottom: 20px;
+}
+
+.about-section h3 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.about-section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+  text-align: justify; /* Justifica o texto */
+}
+
+.about-section .btn {
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  padding: 15px 30px;
+  background-color: #BF0A30;
+  color: #fff;
+  border-radius: 30px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.about-section .btn:hover {
+  background-color: #A30826;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+}
+
+.section-agendamento {
+  background: #e3f2fd;
+  padding: 3rem 1.5rem;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.section-agendamento h2 {
+  color: #173E43;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.section-agendamento p {
+  font-size: 1.125rem;
+  max-width: 700px;
+  margin: 0 auto 2rem auto;
+  color: #555555;
+  text-align: center;
+}
+
+.section-agendamento .btn-primary {
+  display: inline-block;
+  background-color: #1976d2;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.section-agendamento .btn-primary:hover {
+  background-color: #115293;
+  box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+}
+
+
+.gallery-grid img {
+  width: 100%;
+  height: 250px;         /* altura fixa */
+  object-fit: cover;     /* recorta a imagem para preencher mantendo o foco */
+  border-radius: 12px;   /* arredondar cantos, opcional */
+  display: block;        /* remove espaços em branco abaixo das imagens */
+}
+
+#agendamento {
+  background: white !important;
+  border-radius: 15px;
+  padding: 60px 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  color: #222;
+}
+
+.hero-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.hero-logo {
+  max-width: 220px;
+  width: 80%;
+  height: auto;
+}
+
+/* Ajustes específicos para celulares */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-logo {
+    max-width: 180px;
+    margin-top: 10px;
+  }
+}
+.hero-logo {
+  max-width: 280px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 480px) {
+  .hero-logo {
+    max-width: 160px;
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+
+/* Evita estouro em celulares */
+@media (max-width: 600px) {
+  .hero-logo {
+    max-width: 90vw;
+  }
+}
