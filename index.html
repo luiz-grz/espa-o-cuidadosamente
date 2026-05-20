@@ -3,293 +3,1753 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Espaço Cuidadosamente</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Poppins:wght@700&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="script.js" defer></script>
+  <title>Espaço CuidadosaMente — Clínica Multidisciplinar em Niterói</title>
+  <meta name="description" content="Clínica multidisciplinar de saúde mental em Niterói. Psicologia, Fonoaudiologia, Nutrição, Terapia Ocupacional e muito mais. Cuidado integral para toda a família." />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --azul-escuro: #0a2463;
+      --azul-medio: #1a56a0;
+      --azul-claro: #3b82c4;
+      --azul-suave: #dbeafe;
+      --azul-palido: #eff6ff;
+      --vermelho: #c0392b;
+      --vermelho-claro: #e74c3c;
+      --vermelho-suave: #fde8e6;
+      --branco: #ffffff;
+      --cinza-claro: #f8fafc;
+      --cinza-texto: #475569;
+      --cinza-borda: #e2e8f0;
+      --sombra-suave: 0 4px 24px rgba(10,36,99,0.08);
+      --sombra-media: 0 8px 40px rgba(10,36,99,0.13);
+      --sombra-forte: 0 16px 64px rgba(10,36,99,0.18);
+      --raio: 16px;
+      --raio-grande: 28px;
+      --transicao: 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #1e293b;
+      background: var(--branco);
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ======================== HEADER ======================== */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      /* ALWAYS solid white — no transparent on load */
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 2px 24px rgba(10,36,99,0.10);
+      transition: box-shadow var(--transicao);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .logo-link { display: flex; align-items: center; text-decoration: none; }
+    .logo-link img { height: 72px; width: auto; transition: transform var(--transicao); }
+    .logo-link:hover img { transform: scale(1.04); }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    nav ul li a {
+      display: block;
+      padding: 8px 14px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--azul-escuro);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: all var(--transicao);
+      letter-spacing: 0.01em;
+    }
+
+    nav ul li a:hover {
+      background: var(--azul-suave);
+      color: var(--azul-medio);
+    }
+
+    .nav-cta {
+      background: var(--vermelho) !important;
+      color: white !important;
+      padding: 10px 22px !important;
+      border-radius: 50px !important;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 16px rgba(192,57,43,0.30);
+    }
+
+    .nav-cta:hover {
+      background: var(--vermelho-claro) !important;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(192,57,43,0.40) !important;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 26px;
+      height: 2.5px;
+      background: var(--azul-escuro);
+      border-radius: 2px;
+      transition: all var(--transicao);
+    }
+
+    /* ======================== HERO ======================== */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--azul-medio) 55%, #1e6bb8 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(255,255,255,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(192,57,43,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-waves {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 140px;
+      overflow: hidden;
+    }
+
+    .hero-waves svg {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 32px 100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-text { color: white; }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.20);
+      backdrop-filter: blur(8px);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.90);
+      margin-bottom: 28px;
+      letter-spacing: 0.03em;
+      animation: fadeSlideDown 0.8s ease both;
+    }
+
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(74,222,128,0.25);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(74,222,128,0.25); }
+      50% { box-shadow: 0 0 0 6px rgba(74,222,128,0.10); }
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.18;
+      margin-bottom: 22px;
+      animation: fadeSlideUp 0.9s 0.1s ease both;
+    }
+
+    .hero-title em { font-style: normal; color: #fbbf24; }
+
+    .hero-subtitle {
+      font-size: 1.08rem;
+      color: rgba(255,255,255,0.80);
+      max-width: 460px;
+      line-height: 1.75;
+      margin-bottom: 40px;
+      animation: fadeSlideUp 0.9s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      animation: fadeSlideUp 0.9s 0.3s ease both;
+    }
+
+    .btn-hero-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--vermelho);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all var(--transicao);
+      box-shadow: 0 6px 24px rgba(192,57,43,0.40);
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--vermelho-claro);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(192,57,43,0.50);
+    }
+
+    .btn-hero-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.30);
+      color: white;
+      padding: 16px 28px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all var(--transicao);
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255,255,255,0.20);
+      border-color: rgba(255,255,255,0.50);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      animation: fadeSlideUp 0.9s 0.4s ease both;
+    }
+
+    .hero-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+    }
+
+    .hero-stat-num span { color: #fbbf24; }
+
+    .hero-stat-label {
+      font-size: 0.80rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-visual {
+      position: relative;
+      animation: fadeSlideLeft 1s 0.2s ease both;
+    }
+
+    .hero-visual-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: var(--raio-grande);
+      padding: 32px;
+      box-shadow: var(--sombra-forte);
+      position: relative;
+    }
+
+    .hero-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      border-radius: var(--raio);
+      overflow: hidden;
+    }
+
+    .hero-gallery-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.5s ease;
+    }
+
+    .hero-gallery-img:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/9;
+    }
+
+    .hero-gallery-img:hover { transform: scale(1.03); }
+
+    .hero-floating-badge {
+      position: absolute;
+      bottom: -20px;
+      left: -20px;
+      background: white;
+      border-radius: var(--raio);
+      padding: 16px 20px;
+      box-shadow: var(--sombra-media);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 190px;
+    }
+
+    .floating-icon {
+      width: 44px; height: 44px;
+      background: var(--azul-suave);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--azul-medio);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .floating-text-label {
+      font-size: 0.72rem;
+      color: var(--cinza-texto);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .floating-text-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--azul-escuro);
+      line-height: 1.2;
+    }
+
+    /* ======================== SEÇÕES ======================== */
+    .section { padding: 96px 32px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .section-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--azul-suave);
+      color: var(--azul-medio);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 0.80rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--azul-escuro);
+      line-height: 1.22;
+      margin-bottom: 18px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--cinza-texto);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .about-story p {
+      color: var(--cinza-texto);
+      line-height: 1.80;
+      margin-bottom: 16px;
+      font-size: 1rem;
+    }
+
+    .about-timeline {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .timeline-item { display: flex; gap: 16px; align-items: flex-start; }
+
+    .timeline-year {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--vermelho);
+      min-width: 52px;
+      line-height: 1.3;
+    }
+
+    .timeline-content {
+      border-left: 2px solid var(--cinza-borda);
+      padding-left: 16px;
+    }
+
+    .timeline-content h4 {
+      font-weight: 600;
+      color: var(--azul-escuro);
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .timeline-content p {
+      font-size: 0.88rem;
+      color: var(--cinza-texto);
+      line-height: 1.65;
+    }
+
+    .about-visual { position: relative; }
+
+    .about-img-wrap {
+      border-radius: var(--raio-grande);
+      overflow: hidden;
+      box-shadow: var(--sombra-forte);
+      aspect-ratio: 4/5;
+    }
+
+    .about-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+
+    .about-img-wrap:hover img { transform: scale(1.04); }
+
+    .about-accent-card {
+      position: absolute;
+      top: -24px; right: -24px;
+      background: var(--vermelho);
+      color: white;
+      border-radius: var(--raio);
+      padding: 20px 24px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(192,57,43,0.35);
+    }
+
+    .about-accent-card .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .about-accent-card .label {
+      font-size: 0.78rem;
+      opacity: 0.85;
+      line-height: 1.4;
+      margin-top: 4px;
+    }
+
+    /* GALLERY */
+    .gallery-section { background: var(--cinza-claro); padding: 96px 32px; }
+
+    .gallery-header { text-align: center; margin-bottom: 56px; }
+    .gallery-header .section-subtitle { margin: 0 auto; }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      border-radius: var(--raio);
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+    .gallery-item:nth-child(4) { grid-column: span 2; }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+      min-height: 200px;
+    }
+
+    .gallery-item:hover img { transform: scale(1.06); }
+
+    .gallery-item-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,36,99,0.60) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transicao);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px;
+    }
+
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+    .gallery-item-overlay span { color: white; font-size: 0.88rem; font-weight: 500; }
+
+    /* SERVICES */
+    .services-section { padding: 96px 32px; background: white; }
+    .services-header { max-width: 600px; margin-bottom: 60px; }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .service-card {
+      background: var(--branco);
+      border: 1.5px solid var(--cinza-borda);
+      border-radius: var(--raio-grande);
+      padding: 32px 28px;
+      transition: all var(--transicao);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--azul-medio), var(--azul-claro));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--transicao);
+    }
+
+    .service-card:hover {
+      border-color: var(--azul-claro);
+      box-shadow: var(--sombra-media);
+      transform: translateY(-4px);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-icon {
+      width: 56px; height: 56px;
+      background: var(--azul-palido);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      transition: all var(--transicao);
+    }
+
+    .service-card:hover .service-icon {
+      background: var(--azul-suave);
+      transform: scale(1.08);
+    }
+
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--azul-escuro);
+      margin-bottom: 10px;
+    }
+
+    .service-card p { font-size: 0.93rem; color: var(--cinza-texto); line-height: 1.72; }
+
+    /* ======================== AGENDAMENTO ======================== */
+    .agendamento-section {
+      background: linear-gradient(135deg, var(--azul-escuro) 0%, var(--azul-medio) 100%);
+      padding: 96px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .agendamento-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .agendamento-section::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -80px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(192,57,43,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .agendamento-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      position: relative;
+      z-index: 2;
+    }
+
+    .agendamento-text { color: white; }
+    .agendamento-text .section-tag { background: rgba(255,255,255,0.15); color: white; }
+    .agendamento-text .section-title { color: white; }
+    .agendamento-text .section-subtitle { color: rgba(255,255,255,0.75); max-width: 440px; }
+
+    .agendamento-features {
+      margin-top: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .agendamento-feature {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.95rem;
+    }
+
+    .agendamento-feature i {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #fbbf24;
+      flex-shrink: 0;
+    }
+
+    .agendamento-card {
+      background: white;
+      border-radius: var(--raio-grande);
+      padding: 40px;
+      box-shadow: var(--sombra-forte);
+    }
+
+    .agendamento-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--azul-escuro);
+      margin-bottom: 8px;
+    }
+
+    .agendamento-card > p {
+      color: var(--cinza-texto);
+      font-size: 0.93rem;
+      margin-bottom: 28px;
+      line-height: 1.70;
+    }
+
+    .form-group { margin-bottom: 18px; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--azul-escuro);
+      margin-bottom: 7px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--cinza-borda);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: #1e293b;
+      background: var(--cinza-claro);
+      transition: border-color var(--transicao), box-shadow var(--transicao);
+      outline: none;
+      appearance: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--azul-claro);
+      box-shadow: 0 0 0 4px rgba(59,130,196,0.12);
+      background: white;
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* Toggle para paciente */
+    .paciente-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .toggle-btn {
+      padding: 11px 16px;
+      border: 1.5px solid var(--cinza-borda);
+      border-radius: 12px;
+      background: var(--cinza-claro);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--cinza-texto);
+      cursor: pointer;
+      transition: all var(--transicao);
+      text-align: center;
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--azul-claro);
+      color: var(--azul-medio);
+    }
+
+    .toggle-btn.active {
+      background: var(--azul-suave);
+      border-color: var(--azul-medio);
+      color: var(--azul-escuro);
+      font-weight: 600;
+    }
+
+    .form-section-divider {
+      border: none;
+      border-top: 1.5px solid var(--cinza-borda);
+      margin: 20px 0 18px;
+    }
+
+    .form-section-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--azul-medio);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .btn-agendar {
+      width: 100%;
+      padding: 16px;
+      background: var(--vermelho);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transicao);
+      box-shadow: 0 4px 16px rgba(192,57,43,0.30);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-agendar:hover {
+      background: var(--vermelho-claro);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(192,57,43,0.40);
+    }
+
+    /* REVIEWS */
+    .reviews-section { padding: 96px 32px; background: var(--cinza-claro); }
+    .reviews-header { text-align: center; margin-bottom: 60px; }
+    .reviews-header .section-subtitle { margin: 0 auto; }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .review-card {
+      background: white;
+      border-radius: var(--raio-grande);
+      padding: 32px 28px;
+      box-shadow: var(--sombra-suave);
+      transition: all var(--transicao);
+      border: 1.5px solid var(--cinza-borda);
+    }
+
+    .review-card:hover { transform: translateY(-4px); box-shadow: var(--sombra-media); }
+
+    .review-stars { display: flex; gap: 4px; margin-bottom: 16px; }
+    .review-stars i { color: #fbbf24; font-size: 1rem; }
+
+    .review-text {
+      font-size: 0.97rem;
+      color: var(--cinza-texto);
+      line-height: 1.78;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .review-text::before { content: '"'; }
+    .review-text::after { content: '"'; }
+
+    .review-author { display: flex; align-items: center; gap: 12px; }
+
+    .review-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--azul-medio), var(--azul-claro));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .review-name { font-weight: 600; color: var(--azul-escuro); font-size: 0.92rem; }
+    .review-date { font-size: 0.80rem; color: var(--cinza-texto); }
+
+    .google-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.83rem;
+      color: var(--cinza-texto);
+      margin-top: 40px;
+      justify-content: center;
+    }
+
+    .google-badge i { color: #ea4335; }
+
+    /* CONTATO */
+    .contato-section { padding: 96px 32px; background: white; }
+
+    .contato-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 72px;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contato-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .contato-icon {
+      width: 48px; height: 48px;
+      background: var(--azul-palido);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--azul-medio);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      transition: all var(--transicao);
+    }
+
+    .contato-item:hover .contato-icon { background: var(--azul-suave); transform: scale(1.08); }
+
+    .contato-item-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--cinza-texto);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .contato-item-value { font-size: 1rem; color: var(--azul-escuro); font-weight: 500; }
+    .contato-item-value a { color: var(--azul-medio); text-decoration: none; transition: color var(--transicao); }
+    .contato-item-value a:hover { color: var(--vermelho); }
+
+    .social-row { display: flex; gap: 12px; margin-top: 32px; }
+
+    .social-btn {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      text-decoration: none;
+      transition: all var(--transicao);
+      color: white;
+    }
+
+    .social-btn.instagram { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+    .social-btn.facebook { background: #1877f2; }
+    .social-btn.whatsapp { background: #25d366; }
+
+    .social-btn:hover { transform: translateY(-3px) scale(1.08); box-shadow: 0 8px 20px rgba(0,0,0,0.20); }
+
+    .map-wrap {
+      border-radius: var(--raio-grande);
+      overflow: hidden;
+      box-shadow: var(--sombra-media);
+      border: 1.5px solid var(--cinza-borda);
+    }
+
+    .map-wrap iframe { display: block; width: 100%; height: 400px; border: none; }
+
+    /* FOOTER */
+    footer {
+      background: var(--azul-escuro);
+      color: rgba(255,255,255,0.70);
+      padding: 40px 32px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-logo img { height: 56px; opacity: 0.90; }
+    .footer-text { font-size: 0.85rem; line-height: 1.70; }
+    .footer-text a { color: rgba(255,255,255,0.60); text-decoration: none; }
+    .footer-text a:hover { color: white; }
+
+    /* WHATSAPP FLOAT */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      width: 60px; height: 60px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.6rem;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.50);
+      z-index: 999;
+      transition: all var(--transicao);
+      animation: popIn 0.5s 1s ease both;
+    }
+
+    .whatsapp-float:hover { transform: scale(1.12); box-shadow: 0 8px 32px rgba(37,211,102,0.60); }
+
+    .whatsapp-float::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid rgba(37,211,102,0.40);
+      animation: ringPulse 2.5s infinite;
+    }
+
+    @keyframes ringPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    /* ANIMAÇÕES */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeSlideLeft {
+      from { opacity: 0; transform: translateX(40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr; gap: 48px; padding-top: 100px; }
+      .hero-visual { display: none; }
+      .hero-title { font-size: 2.6rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-img-wrap { aspect-ratio: 16/9; }
+      .agendamento-inner { grid-template-columns: 1fr; gap: 48px; }
+      .contato-grid { grid-template-columns: 1fr; gap: 48px; }
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+      .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+      .gallery-item:nth-child(4) { grid-column: span 1; }
+    }
+
+    @media (max-width: 768px) {
+      .section { padding: 72px 20px; }
+      .gallery-section, .reviews-section, .agendamento-section, .contato-section, .services-section { padding: 72px 20px; }
+      nav ul { display: none; }
+      .mobile-menu-btn { display: flex; }
+      nav ul.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--azul-escuro);
+        padding: 100px 40px 40px;
+        gap: 8px;
+        z-index: 999;
+      }
+      nav ul.open li a { color: white; font-size: 1.2rem; padding: 12px 16px; }
+      nav ul.open .nav-cta { background: var(--vermelho) !important; }
+      .hero-inner { padding: 90px 20px 80px; }
+      .hero-stats { gap: 20px; }
+      .hero-title { font-size: 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .paciente-toggle { grid-template-columns: 1fr 1fr; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 1; }
+      .header-inner { padding: 14px 20px; }
+      .agendamento-card { padding: 28px 22px; }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container header-container">
-      <a href="#inicio" class="logo" aria-label="Logo Espaço Cuidadosamente">
-        <img
-          src="f2593bfa-36db-4ddc-9268-4e70d2931bfe-removebg-preview_20240924_090913_0000.png"
-          alt="Logo Espaço Cuidadosamente"
-        />
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="header-inner">
+      <a href="#inicio" class="logo-link" aria-label="Espaço CuidadosaMente - Página inicial">
+        <img src="f2593bfa-36db-4ddc-9268-4e70d2931bfe-removebg-preview_20240924_090913_0000.png" alt="Logo Espaço CuidadosaMente" />
       </a>
       <nav>
-        <button
-          class="mobile-menu-btn"
-          aria-label="Abrir menu"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
+        <button class="mobile-menu-btn" id="menuBtn" aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span><span></span>
         </button>
-        <ul id="nav-menu" class="nav-menu">
+        <ul id="navMenu">
           <li><a href="#inicio">Início</a></li>
           <li><a href="#sobre">Sobre Nós</a></li>
           <li><a href="#galeria">Galeria</a></li>
           <li><a href="#servicos">Serviços</a></li>
-          <li><a href="#agendamento">Agendamento</a></li>
-          <li><a href="#reviews">Avaliações</a></li>
+          <li><a href="#avaliacoes">Avaliações</a></li>
           <li><a href="#contato">Contato</a></li>
+          <li><a href="#agendamento" class="nav-cta">Agendar Consulta</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <main>
-    <section id="inicio" class="hero">
-      <div class="container hero-content">
-        <h1>
-          Bem-vindo ao
+  <!-- HERO -->
+  <section id="inicio" class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <div class="hero-badge-dot"></div>
+          Clínica Multidisciplinar em Niterói
+        </div>
+        <h1 class="hero-title">
+          Seu bem-estar<br/>
+          começa com o<br/>
+          <em>cuidado certo</em>
         </h1>
-          <img src="f2593bfa-36db-4ddc-9268-4e70d2931bfe-removebg-preview_20240924_090913_0000.png" alt="logoespaco" class="hero-logo">
-       <br>
-        <p>Um lugar onde o cuidado e a atenção aos detalhes fazem toda a diferença.</p>
-      </div>
-    </section>
-
-    <section id="sobre" class="about-section">
-      <div class="container">
-        <h2>Sobre Nós</h2>
-        <h3>Nossa História</h3>
-        <p>
-          O Espaço nasceu do sonho de oferecer terapia para todos. Abrimos nossas portas em 11 de março de 2020 — uma semana antes do início da pandemia de COVID-19 — e, 
-          mesmo com o medo do desconhecido rondando nossos pensamentos, a nossa esperança e a convicção de uma causa maior nos acompanharam a cada passo. Durante o período mais 
-          incerto, continuamos atendendo de forma totalmente online para garantir que nossos pacientes tivessem acesso ao cuidado de que precisavam, mesmo sem o contato presencial.
+        <p class="hero-subtitle">
+          Uma equipe multidisciplinar dedicada ao seu desenvolvimento e saúde mental. Atendimento humanizado, acolhedor e especializado em Niterói desde 2020.
         </p>
-        <p>
-          Em 2021, nosso time cresceu: recebemos fonoaudiólogas e nutricionistas, e a empatia tornou-se o grande diferencial de todos que escolheram fazer parte dessa jornada.
-          </p>
-          <p>
-          Em 2022, precisávamos de um espaço maior — e foi assim que mudamos de sala, dando mais conforto e infraestrutura. Além de psicologia, nutrição e fonoaudiologia, incorporamos 
-          psicopedagogia e neuropsicologia, ampliando também a equipe de profissionais. O início modesto, com apenas duas psicólogas, transformou-se hoje em uma equipe multidisciplinar 
-          de dez especialistas: psicólogas de várias abordagens, fonoaudiólogas, nutricionistas, terapeuta ocupacional, terapeuta em alimentação, analista de comportamento (ABA), terapeuta 
-          psicomotora e neuropsicólogo(a) musicoterapeuta, psicopedagoga. Recebemos ainda uma nova administração e uma responsável técnica dedicada, que fortalecem nossos valores e nosso compromisso com você.
-          </p>
-          <p>
-          Hoje, mais do que um consultório, o Espaço é um lugar de acolhimento, crescimento e cuidado integral — pronto para acompanhar cada pessoa em sua singularidade e contribuir para o seu bem-estar.
-        </p>
-        <p>
-          Nossa missão é oferecer experiências que transformam, sempre com o máximo de
-          cuidado e atenção às necessidades individuais de cada cliente.
-        </p>
-        <a href="#servicos" class="btn btn-secondary">Conheça Nossos Serviços</a>
-      </div>
-    </section>
-
-    <section id="galeria" class="gallery-section">
-      <div class="container">
-        <h2>Galeria</h2>
-        <div class="gallery-grid" id="gallery"></div>
-      </div>
-    </section>
-
-    <section id="servicos" class="services">
-      <div class="container">
-        <h2>Nossos Serviços</h2>
-        <div class="services-grid">
-           <article class="service-card" tabindex="0">
-              <h3>Psicologia</h3>
-              <p>
-                Atendimento psicológico que promove o autoconhecimento, o bem-estar emocional e o enfrentamento de dificuldades pessoais.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Neuroavaliação</h3>
-              <p>
-                Avaliação das funções cerebrais para identificar dificuldades cognitivas, emocionais ou motoras, orientando intervenções eficazes.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Psicoterapia</h3>
-              <p>
-                Atendimento individualizado para lidar com questões emocionais, comportamentais e de desenvolvimento pessoal.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Fonoaudiologia</h3>
-              <p>
-                Trabalha dificuldades na comunicação oral e escrita, voz, linguagem e alimentação, promovendo melhor qualidade de vida.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Psicopedagogia</h3>
-              <p>
-                Ajuda no processo de aprendizagem de crianças e adultos, identificando e trabalhando dificuldades cognitivas e pedagógicas.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Musicoterapia</h3>
-              <p>
-                Usa a música como recurso terapêutico para estimular o desenvolvimento emocional, social e cognitivo.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Psicomotricidade</h3>
-              <p>
-                Trabalha a conexão entre o corpo e as emoções, desenvolvendo aspectos motores e afetivos essenciais para o bem-estar.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Terapia Ocupacional</h3>
-              <p>
-                Promove autonomia e qualidade de vida por meio de atividades terapêuticas que desenvolvem habilidades funcionais e sociais.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>Integração Sensorial</h3>
-              <p>
-                Intervenção que organiza e equilibra os estímulos sensoriais, fundamental para quem tem dificuldades de processamento sensorial.
-              </p>
-            </article>
-
-            <article class="service-card" tabindex="0">
-              <h3>ABA</h3>
-              <p>
-                Análise do Comportamento Aplicada voltada para desenvolver habilidades e reduzir comportamentos disfuncionais, especialmente no autismo.
-              </p>
-            </article>
-
+        <div class="hero-actions">
+          <a href="#agendamento" class="btn-hero-primary">
+            <i class="fas fa-calendar-check"></i>
+            Agendar Minha Consulta
+          </a>
+          <a href="#servicos" class="btn-hero-secondary">
+            <i class="fas fa-stethoscope"></i>
+            Nossos Serviços
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-num">10<span>+</span></div>
+            <div class="hero-stat-label">Especialistas</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">5<span>+</span></div>
+            <div class="hero-stat-label">Anos de experiência</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-num">1k<span>+</span></div>
+            <div class="hero-stat-label">Vidas transformadas</div>
+          </div>
         </div>
       </div>
-    </section>
 
-    <section id="agendamento" class="section-agendamento">
-      <div class="container">
-        <h2>Agende sua Consulta</h2>
-        <p>Para agendar sua consulta, clique no botão abaixo e preencha nosso formulário.</p>
-        <a
-          href="https://espacocuidadosamente.netlify.app/?fbclid=PAZXh0bgNhZW0CMTEAAacqpmgwYEUXTGVWkj3z6mm5J1uOu67VJ3MiRYDXwdZeEeMh1pU-FmG10oZGEQ_aem_n1mR-Mwpbf3TR0TZGIFCkw"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-primary btn-agendar"
-          >Agendar Consulta</a
-        >
-      </div>
-    </section>
-
-    <section id="reviews" class="reviews-section">
-      <div class="container">
-        <h2>Avaliações no Google</h2>
-        <div id="reviews-container" class="reviews-container">
-          <p>Carregando avaliações...</p>
+      <div class="hero-visual">
+        <div class="hero-visual-card">
+          <div class="hero-gallery">
+            <img src="whatsapp image 2025-05-16 at 11.50.38.jpeg" alt="Espaço CuidadosaMente" class="hero-gallery-img" />
+            <img src="whatsapp image 2025-05-16 at 11.50.39.jpeg" alt="Ambiente da clínica" class="hero-gallery-img" />
+            <img src="whatsapp image 2025-05-16 at 11.50.40 (1).jpeg" alt="Recepção" class="hero-gallery-img" />
+          </div>
+          <div class="hero-floating-badge">
+            <div class="floating-icon"><i class="fas fa-heart"></i></div>
+            <div>
+              <div class="floating-text-label">Avaliação Google</div>
+              <div class="floating-text-value">⭐ 5.0 — Excelente</div>
+            </div>
+          </div>
         </div>
-        <p style="font-size: 0.9rem; color: #555; margin-top: 1rem;">
-          Confira mais avaliações no
-          <a href="https://www.google.com/search?q=Espaço+Cuidadosamente" target="_blank" rel="noopener noreferrer">Google</a>.
-        </p>
       </div>
-    </section>
+    </div>
 
-    <section id="contato" class="contact">
-      <div class="container">
-        <h2>Contato</h2>
-        <p>Rua Estr. Caetano Monteiro, 818 - sala 210 - Badu, Niterói - RJ, 24320-570</p>
-        <p>Telefone: <a href="tel:+5521984480511">(21) 98448-0511</a></p>
-        <p>Email: <a href="mailto:espacocuidadosamente@gmail.com">espacocuidadosamente@gmail.com</a></p>
+    <div class="hero-waves">
+      <svg viewBox="0 0 1440 140" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="white" d="M0,80 C360,140 1080,0 1440,80 L1440,140 L0,140 Z"/>
+      </svg>
+    </div>
+  </section>
 
-        <div class="social-links" aria-label="Redes sociais">
-          <a href="https://instagram.com/espacocuidadosamente" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+  <!-- SOBRE NÓS -->
+  <section id="sobre" class="section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-tag"><i class="fas fa-leaf"></i> Nossa história</div>
+          <h2 class="section-title">Nascemos do sonho de cuidar de todos</h2>
+          <div class="about-story">
+            <p>O Espaço CuidadosaMente abriu suas portas em 11 de março de 2020 — uma semana antes do início da pandemia. Com esperança e convicção, continuamos atendendo online para garantir suporte nos momentos mais incertos.</p>
+            <p>Hoje, somos muito mais que um consultório. Somos um lugar de acolhimento, crescimento e cuidado integral — prontos para acompanhar cada pessoa em sua singularidade.</p>
+          </div>
+          <div class="about-timeline">
+            <div class="timeline-item">
+              <div class="timeline-year">2020</div>
+              <div class="timeline-content">
+                <h4>Fundação do Espaço</h4>
+                <p>Início com duas psicólogas, logo migrando para atendimentos online durante a pandemia.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2021</div>
+              <div class="timeline-content">
+                <h4>Expansão multidisciplinar</h4>
+                <p>Chegada de fonoaudiólogas e nutricionistas, ampliando o cuidado integral.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">2022</div>
+              <div class="timeline-content">
+                <h4>Nova sede e novos especialistas</h4>
+                <p>Mudança para um espaço maior; psicopedagogia e neuropsicologia integradas à equipe.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-year">Hoje</div>
+              <div class="timeline-content">
+                <h4>10 especialistas, 1 propósito</h4>
+                <p>Equipe multidisciplinar completa, dedicada ao seu bem-estar com empatia e excelência.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-visual reveal reveal-delay-2">
+          <div class="about-img-wrap">
+            <img src="whatsapp image 2025-05-15 at 14.36.09 (1).jpeg" alt="Espaço CuidadosaMente - Ambiente" />
+          </div>
+          <div class="about-accent-card">
+            <div class="num">10</div>
+            <div class="label">especialistas<br/>multidisciplinares</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" class="gallery-section">
+    <div class="gallery-header reveal">
+      <div class="section-tag" style="display:inline-flex;"><i class="fas fa-images"></i> Nosso espaço</div>
+      <h2 class="section-title">Um ambiente pensado para você</h2>
+      <p class="section-subtitle">Cada detalhe do nosso espaço foi projetado para transmitir acolhimento, conforto e bem-estar desde o momento em que você chega.</p>
+    </div>
+    <div class="gallery-grid container">
+      <div class="gallery-item reveal">
+        <img src="whatsapp image 2025-05-16 at 11.50.38 (1).jpeg" alt="Recepção do espaço" />
+        <div class="gallery-item-overlay"><span>Recepção</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-1">
+        <img src="whatsapp image 2025-05-16 at 11.50.39 (1).jpeg" alt="Sala de atendimento" />
+        <div class="gallery-item-overlay"><span>Sala de atendimento</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-2">
+        <img src="whatsapp image 2025-05-16 at 11.50.41.jpeg" alt="Ambiente da clínica" />
+        <div class="gallery-item-overlay"><span>Ambiente terapêutico</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-3">
+        <img src="whatsapp image 2025-05-16 at 11.50.39.jpeg" alt="Área de espera" />
+        <div class="gallery-item-overlay"><span>Área de espera</span></div>
+      </div>
+      <div class="gallery-item reveal reveal-delay-4">
+        <img src="whatsapp image 2025-05-15 at 14.36.09.jpeg" alt="Espaço interno" />
+        <div class="gallery-item-overlay"><span>Espaço interno</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section id="servicos" class="services-section">
+    <div class="container">
+      <div class="services-header reveal">
+        <div class="section-tag"><i class="fas fa-heartbeat"></i> Especialidades</div>
+        <h2 class="section-title">Cuidado integral em um só lugar</h2>
+        <p class="section-subtitle">Nossa equipe multidisciplinar oferece uma abordagem completa para o desenvolvimento e bem-estar de crianças, adolescentes e adultos.</p>
+      </div>
+
+      <div class="services-grid">
+        <article class="service-card reveal reveal-delay-1" tabindex="0">
+          <div class="service-icon">🧠</div>
+          <h3>Psicologia</h3>
+          <p>Atendimento psicológico que promove o autoconhecimento, o bem-estar emocional e o enfrentamento de dificuldades pessoais com diferentes abordagens terapêuticas.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-2" tabindex="0">
+          <div class="service-icon">🔬</div>
+          <h3>Neuroavaliação</h3>
+          <p>Avaliação das funções cerebrais para identificar dificuldades cognitivas, emocionais ou motoras, orientando intervenções eficazes e personalizadas.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-3" tabindex="0">
+          <div class="service-icon">💬</div>
+          <h3>Psicoterapia</h3>
+          <p>Atendimento individualizado para lidar com questões emocionais, comportamentais e de desenvolvimento pessoal, promovendo crescimento e equilíbrio.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-1" tabindex="0">
+          <div class="service-icon">🗣️</div>
+          <h3>Fonoaudiologia</h3>
+          <p>Trabalha dificuldades na comunicação oral e escrita, voz, linguagem e alimentação, promovendo melhor qualidade de vida e desenvolvimento comunicativo.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-2" tabindex="0">
+          <div class="service-icon">📚</div>
+          <h3>Psicopedagogia</h3>
+          <p>Auxilia no processo de aprendizagem de crianças e adultos, identificando e trabalhando dificuldades cognitivas e pedagógicas de forma humanizada.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-3" tabindex="0">
+          <div class="service-icon">🎵</div>
+          <h3>Musicoterapia</h3>
+          <p>Usa a música como recurso terapêutico para estimular o desenvolvimento emocional, social e cognitivo, conectando corpo e mente através do som.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-1" tabindex="0">
+          <div class="service-icon">🤸</div>
+          <h3>Psicomotricidade</h3>
+          <p>Trabalha a conexão entre o corpo e as emoções, desenvolvendo aspectos motores e afetivos essenciais para o bem-estar e desenvolvimento integral.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-2" tabindex="0">
+          <div class="service-icon">🌱</div>
+          <h3>Terapia Ocupacional</h3>
+          <p>Promove autonomia e qualidade de vida por meio de atividades terapêuticas que desenvolvem habilidades funcionais, sociais e de vida diária.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-3" tabindex="0">
+          <div class="service-icon">✋</div>
+          <h3>Integração Sensorial</h3>
+          <p>Organiza e equilibra os estímulos sensoriais, fundamental para quem tem dificuldades de processamento, melhorando concentração e comportamento.</p>
+        </article>
+        <article class="service-card reveal reveal-delay-1" tabindex="0">
+          <div class="service-icon">📊</div>
+          <h3>ABA</h3>
+          <p>Análise do Comportamento Aplicada voltada para desenvolver habilidades e reduzir comportamentos disfuncionais, com especial ênfase no suporte ao autismo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- AGENDAMENTO -->
+  <section id="agendamento" class="agendamento-section">
+    <div class="agendamento-inner">
+      <div class="agendamento-text reveal">
+        <div class="section-tag"><i class="fas fa-calendar-alt"></i> Agendamento</div>
+        <h2 class="section-title">Dê o primeiro passo para o seu bem-estar</h2>
+        <p class="section-subtitle">Agendar é fácil e rápido. Nossa equipe entrará em contato para confirmar o melhor horário para você.</p>
+        <div class="agendamento-features">
+          <div class="agendamento-feature">
+            <i class="fas fa-clock"></i>
+            <span>Atendimento presencial e online disponível</span>
+          </div>
+          <div class="agendamento-feature">
+            <i class="fas fa-shield-alt"></i>
+            <span>Ambiente seguro, sigiloso e acolhedor</span>
+          </div>
+          <div class="agendamento-feature">
+            <i class="fas fa-users"></i>
+            <span>10 especialistas em múltiplas áreas</span>
+          </div>
+          <div class="agendamento-feature">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Localização central em Niterói — RJ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="agendamento-card reveal reveal-delay-2">
+        <h3>Solicitar Agendamento</h3>
+        <p>Preencha os dados abaixo e enviaremos tudo formatado no WhatsApp para nossa equipe.</p>
+
+        <!-- QUEM VAI SER ATENDIDO -->
+        <div class="form-group">
+          <label>O atendimento é para:</label>
+          <div class="paciente-toggle">
+            <button type="button" class="toggle-btn active" id="btnAdulto" onclick="setPaciente('adulto')">Adulto / Adolescente</button>
+            <button type="button" class="toggle-btn" id="btnCrianca" onclick="setPaciente('crianca')">Criança</button>
+          </div>
+        </div>
+
+        <hr class="form-section-divider" />
+
+        <!-- DADOS DO RESPONSÁVEL (aparece só para criança) -->
+        <div id="secaoResponsavel" style="display:none;">
+          <div class="form-section-label">Dados do Responsável</div>
+          <div class="form-group">
+            <label for="nomeResponsavel">Nome completo do responsável</label>
+            <input type="text" id="nomeResponsavel" placeholder="Nome do pai, mãe ou responsável" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefoneResponsavel">WhatsApp do responsável</label>
+              <input type="tel" id="telefoneResponsavel" placeholder="(21) 9 0000-0000" />
+            </div>
+            <div class="form-group">
+              <label for="emailResponsavel">E-mail do responsável</label>
+              <input type="email" id="emailResponsavel" placeholder="seu@email.com" />
+            </div>
+          </div>
+          <hr class="form-section-divider" />
+          <div class="form-section-label">Dados da Criança</div>
+        </div>
+
+        <!-- DADOS DO PACIENTE -->
+        <div class="form-group">
+          <label for="nomePaciente" id="labelNomePaciente">Nome completo</label>
+          <input type="text" id="nomePaciente" placeholder="Nome completo do paciente" />
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" id="grupoIdade">
+            <label for="idadePaciente">Idade</label>
+            <input type="number" id="idadePaciente" placeholder="Ex: 8" min="0" max="120" />
+          </div>
+          <div class="form-group" id="grupoTelefone">
+            <label for="telefonePaciente" id="labelTelefonePaciente">WhatsApp / Telefone</label>
+            <input type="tel" id="telefonePaciente" placeholder="(21) 9 0000-0000" />
+          </div>
+        </div>
+
+        <div class="form-group" id="grupoEmail">
+          <label for="emailPaciente" id="labelEmailPaciente">E-mail</label>
+          <input type="email" id="emailPaciente" placeholder="seu@email.com" />
+        </div>
+
+        <hr class="form-section-divider" />
+        <div class="form-section-label">Consulta</div>
+
+        <div class="form-group">
+          <label for="especialidade">Especialidade desejada</label>
+          <select id="especialidade">
+            <option value="" disabled selected>Selecione uma especialidade</option>
+            <option>Psicologia / Psicoterapia</option>
+            <option>Fonoaudiologia</option>
+            <option>Terapia Ocupacional</option>
+            <option>Psicopedagogia</option>
+            <option>Musicoterapia</option>
+            <option>Psicomotricidade</option>
+            <option>Integração Sensorial</option>
+            <option>ABA</option>
+            <option>Neuroavaliação</option>
+            <option>Nao sei ainda / Quero orientacao</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="modalidade">Modalidade de atendimento</label>
+          <select id="modalidade">
+            <option value="" disabled selected>Selecione a modalidade</option>
+            <option>Presencial</option>
+            <option>Online</option>
+            <option>Sem preferencia</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-agendar" onclick="enviarWhatsApp()">
+          <i class="fab fa-whatsapp"></i>
+          Enviar Solicitação via WhatsApp
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AVALIAÇÕES -->
+  <section id="avaliacoes" class="reviews-section">
+    <div class="reviews-header reveal">
+      <div class="section-tag" style="display:inline-flex;"><i class="fas fa-star"></i> Depoimentos</div>
+      <h2 class="section-title">O que nossos pacientes dizem</h2>
+      <p class="section-subtitle">Cada história de cuidado importa. Veja o que dizem as pessoas que escolheram o Espaço CuidadosaMente.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <article class="review-card reveal reveal-delay-1">
+        <div class="review-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">Atendimento excepcional e ambiente acolhedor. Desde a recepção até os profissionais, tudo transmite cuidado e atenção. Recomendo muito!</p>
+        <div class="review-author">
+          <div class="review-avatar">AP</div>
+          <div>
+            <div class="review-name">Ana Paula S.</div>
+            <div class="review-date">Google · há 2 meses</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="review-card reveal reveal-delay-2">
+        <div class="review-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">Profissionais qualificados que realmente se importam com o paciente. Minha filha evoluiu muito com as terapias. Sou eternamente grata.</p>
+        <div class="review-author">
+          <div class="review-avatar">CE</div>
+          <div>
+            <div class="review-name">Carlos Eduardo M.</div>
+            <div class="review-date">Google · há 3 meses</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="review-card reveal reveal-delay-3">
+        <div class="review-stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p class="review-text">O espaço é lindo e o atendimento sempre muito gentil e eficiente. Encontrei acolhimento de verdade aqui. Um lugar especial em Niterói.</p>
+        <div class="review-author">
+          <div class="review-avatar">FL</div>
+          <div>
+            <div class="review-name">Fernanda L.</div>
+            <div class="review-date">Google · há 1 mês</div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="google-badge">
+      <i class="fab fa-google"></i>
+      <span>Veja mais avaliações no <a href="https://www.google.com/search?q=Espa%C3%A7o+CuidadosaMente+Niter%C3%B3i" target="_blank" rel="noopener noreferrer" style="color:var(--azul-medio); font-weight:600;">Google</a></span>
+    </div>
+  </section>
+
+  <!-- CONTATO -->
+  <section id="contato" class="contato-section">
+    <div class="contato-grid">
+      <div class="reveal">
+        <div class="section-tag"><i class="fas fa-map-marker-alt"></i> Contato</div>
+        <h2 class="section-title">Estamos em Niterói, perto de você</h2>
+        <p class="section-subtitle" style="margin-bottom:40px;">Visite-nos ou entre em contato pelo canal de sua preferência. Será um prazer te atender.</p>
+
+        <div class="contato-item">
+          <div class="contato-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="contato-item-label">Endereço</div>
+            <div class="contato-item-value">Rua Estr. Caetano Monteiro, 818<br/>Sala 210 — Badu, Niterói — RJ<br/>CEP: 24320-570</div>
+          </div>
+        </div>
+
+        <div class="contato-item">
+          <div class="contato-icon"><i class="fas fa-phone-alt"></i></div>
+          <div>
+            <div class="contato-item-label">Telefone / WhatsApp</div>
+            <div class="contato-item-value"><a href="tel:+5521984480511">(21) 98448-0511</a></div>
+          </div>
+        </div>
+
+        <div class="contato-item">
+          <div class="contato-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="contato-item-label">E-mail</div>
+            <div class="contato-item-value"><a href="mailto:espacocuidadosamente@gmail.com">espacocuidadosamente@gmail.com</a></div>
+          </div>
+        </div>
+
+        <div class="social-row">
+          <a href="https://instagram.com/espacocuidadosamente" target="_blank" rel="noopener" class="social-btn instagram" aria-label="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://facebook.com/espacocuidadosamente" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
-            <i class="fab fa-facebook"></i>
+          <a href="https://facebook.com/espacocuidadosamente" target="_blank" rel="noopener" class="social-btn facebook" aria-label="Facebook">
+            <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="https://wa.me/5521984480511" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="WhatsApp">
+          <a href="https://wa.me/5521984480511" target="_blank" rel="noopener" class="social-btn whatsapp" aria-label="WhatsApp">
             <i class="fab fa-whatsapp"></i>
           </a>
         </div>
-
-       <div class="map-container" style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.443268148693!2d-43.10810948504698!3d-22.928965784999425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997fe7debb3e8a0%3A0x5a6ef57b1a6d3f98!2sEstr.%20Caetano%20Monteiro%2C%20818%20-%20Badu%2C%20Niter%C3%B3i%20-%20RJ%2C%2024320-570!5e0!3m2!1spt-BR!2sbr!4v1694683202000!5m2!1spt-BR!2sbr"
-    width="100%"
-    height="300"
-    style="border:0; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.15);"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade"
-    title="Mapa do Espaço Cuidadosamente"
-  ></iframe>
-</div>
-
-
       </div>
-    </section>
-  </main>
 
+      <div class="reveal reveal-delay-2">
+        <div class="map-wrap">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.443268148693!2d-43.10810948504698!3d-22.928965784999425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997fe7debb3e8a0%3A0x5a6ef57b1a6d3f98!2sEstr.%20Caetano%20Monteiro%2C%20818%20-%20Badu%2C%20Niter%C3%B3i%20-%20RJ%2C%2024320-570!5e0!3m2!1spt-BR!2sbr!4v1694683202000!5m2!1spt-BR!2sbr"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Localização do Espaço CuidadosaMente"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
   <footer>
-    <div class="container">
-      <p>
-        &copy; 2025 Espaço Cuidadosamente — CNPJ: 43.851.102/0001-23 — Representante legal: Mariana Rocha Leal Garcez
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="f2593bfa-36db-4ddc-9268-4e70d2931bfe-removebg-preview_20240924_090913_0000.png" alt="Espaço CuidadosaMente" />
+      </div>
+      <p class="footer-text">
+        © 2026 Espaço CuidadosaMente — CNPJ: 43.851.102/0001-23<br/>
+        Representante legal: Mariana Rocha Leal Garcez<br/>
+        <a href="https://instagram.com/espacocuidadosamente">@espacocuidadosamente</a>
       </p>
     </div>
   </footer>
 
-  <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.getElementById('nav-menu');
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/5521984480511?text=Ola!%20Gostaria%20de%20informacoes%20sobre%20o%20Espaco%20CuidadosaMente."
+     target="_blank" rel="noopener noreferrer"
+     class="whatsapp-float"
+     aria-label="Fale conosco pelo WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
-    mobileMenuBtn.addEventListener('click', () => {
-      const expanded = mobileMenuBtn.getAttribute('aria-expanded') === 'true' || false;
-      mobileMenuBtn.setAttribute('aria-expanded', !expanded);
-      navMenu.classList.toggle('show');
+  <script>
+    // ====== HEADER — sempre sólido, scroll só ajusta sombra ======
+    // (O CSS já define background fixo; nenhuma lógica de transparência necessária)
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      // Intensifica levemente a sombra ao rolar
+      if (window.scrollY > 60) {
+        header.style.boxShadow = '0 4px 32px rgba(10,36,99,0.16)';
+      } else {
+        header.style.boxShadow = '0 2px 24px rgba(10,36,99,0.10)';
+      }
     });
 
-    // Simulação de carregamento de avaliações Google (exemplo estático)
-    const reviewsContainer = document.getElementById('reviews-container');
-    const reviews = [
-      {
-        text: "Atendimento excepcional e ambiente acolhedor. Recomendo muito!",
-        author: "Ana Paula S."
-      },
-      {
-        text: "Profissionais qualificados que realmente se importam com o paciente.",
-        author: "Carlos Eduardo M."
-      },
-      {
-        text: "O espaço é lindo e o atendimento sempre muito gentil e eficiente.",
-        author: "Fernanda L."
-      }
-    ];
+    // ====== MENU MOBILE ======
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
 
-    function loadReviews() {
-      reviewsContainer.innerHTML = '';
-      reviews.forEach(review => {
-        const reviewEl = document.createElement('article');
-        reviewEl.classList.add('review');
-        reviewEl.tabIndex = 0;
-        reviewEl.innerHTML = `
-          <p>${review.text}</p>
-          <p class="author">— ${review.author}</p>
-        `;
-        reviewsContainer.appendChild(reviewEl);
+    menuBtn.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    navMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
       });
+    });
+
+    // ====== SCROLL REVEAL ======
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // ====== SMOOTH SCROLL ======
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ====== FORMULÁRIO DE AGENDAMENTO ======
+    let tipoPaciente = 'adulto';
+
+    function setPaciente(tipo) {
+      tipoPaciente = tipo;
+      const secaoResp = document.getElementById('secaoResponsavel');
+      const btnAdulto = document.getElementById('btnAdulto');
+      const btnCrianca = document.getElementById('btnCrianca');
+      const labelNome = document.getElementById('labelNomePaciente');
+      const labelTel = document.getElementById('labelTelefonePaciente');
+      const labelEmail = document.getElementById('labelEmailPaciente');
+      const grupoTelefone = document.getElementById('grupoTelefone');
+      const grupoEmail = document.getElementById('grupoEmail');
+
+      if (tipo === 'crianca') {
+        btnCrianca.classList.add('active');
+        btnAdulto.classList.remove('active');
+        secaoResp.style.display = 'block';
+        labelNome.textContent = 'Nome completo da crianca';
+        labelTel.textContent = 'WhatsApp / Telefone';
+        labelEmail.textContent = 'E-mail';
+        // Telefone e email da crianca ficam opcionais / ocultos pois responsavel ja tem
+        grupoTelefone.style.display = 'none';
+        grupoEmail.style.display = 'none';
+      } else {
+        btnAdulto.classList.add('active');
+        btnCrianca.classList.remove('active');
+        secaoResp.style.display = 'none';
+        labelNome.textContent = 'Nome completo';
+        labelTel.textContent = 'WhatsApp / Telefone';
+        labelEmail.textContent = 'E-mail';
+        grupoTelefone.style.display = '';
+        grupoEmail.style.display = '';
+      }
     }
 
-    // Carregar avaliações ao abrir página
-    window.addEventListener('DOMContentLoaded', loadReviews);
+    function val(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    function enviarWhatsApp() {
+      const especialidade = val('especialidade');
+      const modalidade = val('modalidade');
+      const nomePaciente = val('nomePaciente');
+      const idadePaciente = val('idadePaciente');
+
+      // Validação mínima
+      if (tipoPaciente === 'adulto') {
+        const telefone = val('telefonePaciente');
+        if (!nomePaciente || !telefone || !especialidade) {
+          alert('Por favor, preencha pelo menos nome, telefone e especialidade desejada.');
+          return;
+        }
+      } else {
+        const nomeResp = val('nomeResponsavel');
+        const telResp = val('telefoneResponsavel');
+        if (!nomeResp || !telResp || !nomePaciente || !especialidade) {
+          alert('Por favor, preencha os dados do responsavel, nome da crianca e especialidade desejada.');
+          return;
+        }
+      }
+
+      let mensagem = '';
+      mensagem += 'SOLICITACAO DE AGENDAMENTO\n';
+      mensagem += '----------------------------\n\n';
+
+      if (tipoPaciente === 'adulto') {
+        mensagem += 'Tipo de atendimento: Adulto / Adolescente\n\n';
+        mensagem += 'DADOS DO PACIENTE\n';
+        mensagem += 'Nome completo: ' + nomePaciente + '\n';
+        mensagem += 'Idade: ' + (idadePaciente || 'Nao informada') + '\n';
+        mensagem += 'WhatsApp: ' + val('telefonePaciente') + '\n';
+        mensagem += 'E-mail: ' + (val('emailPaciente') || 'Nao informado') + '\n';
+      } else {
+        mensagem += 'Tipo de atendimento: Crianca\n\n';
+        mensagem += 'DADOS DO RESPONSAVEL\n';
+        mensagem += 'Nome do responsavel: ' + val('nomeResponsavel') + '\n';
+        mensagem += 'WhatsApp do responsavel: ' + val('telefoneResponsavel') + '\n';
+        mensagem += 'E-mail do responsavel: ' + (val('emailResponsavel') || 'Nao informado') + '\n\n';
+        mensagem += 'DADOS DA CRIANCA\n';
+        mensagem += 'Nome completo: ' + nomePaciente + '\n';
+        mensagem += 'Idade: ' + (idadePaciente || 'Nao informada') + '\n';
+      }
+
+      mensagem += '\nCONSULTA\n';
+      mensagem += 'Especialidade desejada: ' + (especialidade || 'Nao informada') + '\n';
+      mensagem += 'Modalidade: ' + (modalidade || 'Sem preferencia') + '\n';
+
+      const url = 'https://wa.me/5521984480511?text=' + encodeURIComponent(mensagem);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
   </script>
 </body>
 </html>
