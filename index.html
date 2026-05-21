@@ -1413,7 +1413,8 @@
         <div class="form-row">
           <div class="form-group" id="grupoIdade">
             <label for="idadePaciente">Idade</label>
-            <input type="number" id="idadePaciente" placeholder="Ex: 8" min="0" max="120" />
+            <input type="text" id="nascimentoPaciente" placeholder="DD/MM/AAAA" maxlength="10" inputmode="numeric">
+<span id="idadePaciente" style="display:none; font-size:13px; color:#888; margin-left:8px;"></span>
           </div>
           <div class="form-group" id="grupoTelefone">
             <label for="telefonePaciente" id="labelTelefonePaciente">WhatsApp / Telefone</label>
@@ -1596,7 +1597,7 @@
   </footer>
 
   <!-- WHATSAPP FLOAT -->
-  <a href="https://wa.me/5521984480511?text=Ola!%20Gostaria%20de%20informacoes%20sobre%20o%20Espaco%20CuidadosaMente."
+  <a href="https://wa.me/5521984480511?text=Olá!%20Gostaria%20de%20informações%20sobre%20o%20Espaço%20CuidadosaMente."
      target="_blank" rel="noopener noreferrer"
      class="whatsapp-float"
      aria-label="Fale conosco pelo WhatsApp">
@@ -1661,95 +1662,231 @@
     // ====== FORMULÁRIO DE AGENDAMENTO ======
     let tipoPaciente = 'adulto';
 
-    function setPaciente(tipo) {
-      tipoPaciente = tipo;
-      const secaoResp = document.getElementById('secaoResponsavel');
-      const btnAdulto = document.getElementById('btnAdulto');
-      const btnCrianca = document.getElementById('btnCrianca');
-      const labelNome = document.getElementById('labelNomePaciente');
-      const labelTel = document.getElementById('labelTelefonePaciente');
-      const labelEmail = document.getElementById('labelEmailPaciente');
-      const grupoTelefone = document.getElementById('grupoTelefone');
-      const grupoEmail = document.getElementById('grupoEmail');
+// ── MÁSCARAS ──────────────────────────────────────────────
 
-      if (tipo === 'crianca') {
-        btnCrianca.classList.add('active');
-        btnAdulto.classList.remove('active');
-        secaoResp.style.display = 'block';
-        labelNome.textContent = 'Nome completo da crianca';
-        labelTel.textContent = 'WhatsApp / Telefone';
-        labelEmail.textContent = 'E-mail';
-        // Telefone e email da crianca ficam opcionais / ocultos pois responsavel ja tem
-        grupoTelefone.style.display = 'none';
-        grupoEmail.style.display = 'none';
-      } else {
-        btnAdulto.classList.add('active');
-        btnCrianca.classList.remove('active');
-        secaoResp.style.display = 'none';
-        labelNome.textContent = 'Nome completo';
-        labelTel.textContent = 'WhatsApp / Telefone';
-        labelEmail.textContent = 'E-mail';
-        grupoTelefone.style.display = '';
-        grupoEmail.style.display = '';
-      }
+function mask(val, pattern) {
+  let v = val.replace(/\D/g, '');
+  let r = '', i = 0;
+  for (let p of pattern) {
+    if (i >= v.length) break;
+    if (p === '0') { r += v[i++]; }
+    else { r += p; }
+  }
+  return r;
+}
+
+function maskCPF(v)  { return mask(v, '000.000.000-00'); }
+function maskData(v) { return mask(v, '00/00/0000'); }
+function maskCEP(v)  { return mask(v, '00000-000'); }
+
+function maskTel(v) {
+  let d = v.replace(/\D/g, '');
+  if (d.length <= 10) return mask(v, '(00) 0000-0000');
+  return mask(v, '(00) 00000-0000');
+}
+
+function applyMask(id, fn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', () => { el.value = fn(el.value); });
+}
+
+applyMask('cpfPaciente',          maskCPF);
+applyMask('cpfResponsavel',       maskCPF);
+applyMask('telefonePaciente',     maskTel);
+applyMask('telefoneResponsavel',  maskTel);
+applyMask('nascimentoPaciente',   maskData);
+applyMask('nascimentoResponsavel', maskData);
+applyMask('cepPaciente',          maskCEP);
+
+// ── CÁLCULO AUTOMÁTICO DE IDADE ───────────────────────────
+
+function calcularIdade(dataStr) {
+  const d = dataStr.replace(/\D/g, '');
+  if (d.length !== 8) return null;
+  const dd = +d.slice(0, 2), mm = +d.slice(2, 4), aaaa = +d.slice(4, 8);
+  if (mm < 1 || mm > 12 || dd < 1 || aaaa < 1900) return null;
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - aaaa;
+  const mesPassou = hoje.getMonth() + 1 > mm;
+  const diaPassou = hoje.getMonth() + 1 === mm && hoje.getDate() >= dd;
+  if (!mesPassou && !diaPassou) idade--;
+  return idade >= 0 ? idade : null;
+}
+
+function bindIdadeDisplay(nascId, idadeDisplayId) {
+  const nasc = document.getElementById(nascId);
+  const display = document.getElementById(idadeDisplayId);
+  if (!nasc || !display) return;
+  nasc.addEventListener('input', () => {
+    const idade = calcularIdade(nasc.value);
+    if (idade !== null) {
+      display.textContent = idade + ' anos';
+      display.style.display = 'inline';
+    } else {
+      display.style.display = 'none';
     }
+  });
+}
 
-    function val(id) {
-      const el = document.getElementById(id);
-      return el ? el.value.trim() : '';
+// Vincule os IDs: campo de nascimento → span que mostra a idade
+// O span deve existir no seu HTML com style="display:none"
+bindIdadeDisplay('nascimentoPaciente',    'idadePaciente');
+bindIdadeDisplay('nascimentoResponsavel', 'idadeResponsavel');
+
+// ── VALIDAÇÕES ────────────────────────────────────────────
+
+function validarCPF(cpf) {
+  const d = cpf.replace(/\D/g, '');
+  if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+  let s = 0;
+  for (let i = 0; i < 9; i++) s += +d[i] * (10 - i);
+  let r = (s * 10) % 11;
+  if (r === 10 || r === 11) r = 0;
+  if (r !== +d[9]) return false;
+  s = 0;
+  for (let i = 0; i < 10; i++) s += +d[i] * (11 - i);
+  r = (s * 10) % 11;
+  if (r === 10 || r === 11) r = 0;
+  return r === +d[10];
+}
+
+function validarData(v) {
+  const d = v.replace(/\D/g, '');
+  if (d.length !== 8) return false;
+  const dd = +d.slice(0, 2), mm = +d.slice(2, 4), aaaa = +d.slice(4, 8);
+  if (mm < 1 || mm > 12 || dd < 1 || aaaa < 1900 || aaaa > 2100) return false;
+  return dd <= new Date(aaaa, mm, 0).getDate();
+}
+
+// O elemento de erro deve existir no seu HTML com display:none
+// Adicione no CSS: .invalid { border-color: red; }
+function addValidation(inputId, erroId, fn) {
+  const el = document.getElementById(inputId);
+  const er = document.getElementById(erroId);
+  if (!el || !er) return;
+  el.addEventListener('blur', () => {
+    if (el.value && !fn(el.value)) {
+      el.classList.add('invalid');
+      er.style.display = 'block';
+    } else {
+      el.classList.remove('invalid');
+      er.style.display = 'none';
     }
+  });
+  el.addEventListener('input', () => {
+    el.classList.remove('invalid');
+    er.style.display = 'none';
+  });
+}
 
-    function enviarWhatsApp() {
-      const especialidade = val('especialidade');
-      const modalidade = val('modalidade');
-      const nomePaciente = val('nomePaciente');
-      const idadePaciente = val('idadePaciente');
+addValidation('cpfPaciente',        'erroCpf',     validarCPF);
+addValidation('cpfResponsavel',     'erroCpfResp', validarCPF);
+addValidation('nascimentoPaciente', 'erroNasc',    validarData);
 
-      // Validação mínima
-      if (tipoPaciente === 'adulto') {
-        const telefone = val('telefonePaciente');
-        if (!nomePaciente || !telefone || !especialidade) {
-          alert('Por favor, preencha pelo menos nome, telefone e especialidade desejada.');
-          return;
-        }
-      } else {
-        const nomeResp = val('nomeResponsavel');
-        const telResp = val('telefoneResponsavel');
-        if (!nomeResp || !telResp || !nomePaciente || !especialidade) {
-          alert('Por favor, preencha os dados do responsavel, nome da crianca e especialidade desejada.');
-          return;
-        }
-      }
+// ── ALTERNÂNCIA ADULTO / CRIANÇA ──────────────────────────
 
-      let mensagem = '';
-      mensagem += 'SOLICITACAO DE AGENDAMENTO\n';
-      mensagem += '----------------------------\n\n';
+function setPaciente(tipo) {
+  tipoPaciente = tipo;
+  const secaoResp     = document.getElementById('secaoResponsavel');
+  const btnAdulto     = document.getElementById('btnAdulto');
+  const btnCrianca    = document.getElementById('btnCrianca');
+  const labelNome     = document.getElementById('labelNomePaciente');
+  const labelTel      = document.getElementById('labelTelefonePaciente');
+  const labelEmail    = document.getElementById('labelEmailPaciente');
+  const grupoTelefone = document.getElementById('grupoTelefone');
+  const grupoEmail    = document.getElementById('grupoEmail');
 
-      if (tipoPaciente === 'adulto') {
-        mensagem += 'Tipo de atendimento: Adulto / Adolescente\n\n';
-        mensagem += 'DADOS DO PACIENTE\n';
-        mensagem += 'Nome completo: ' + nomePaciente + '\n';
-        mensagem += 'Idade: ' + (idadePaciente || 'Nao informada') + '\n';
-        mensagem += 'WhatsApp: ' + val('telefonePaciente') + '\n';
-        mensagem += 'E-mail: ' + (val('emailPaciente') || 'Nao informado') + '\n';
-      } else {
-        mensagem += 'Tipo de atendimento: Crianca\n\n';
-        mensagem += 'DADOS DO RESPONSAVEL\n';
-        mensagem += 'Nome do responsavel: ' + val('nomeResponsavel') + '\n';
-        mensagem += 'WhatsApp do responsavel: ' + val('telefoneResponsavel') + '\n';
-        mensagem += 'E-mail do responsavel: ' + (val('emailResponsavel') || 'Nao informado') + '\n\n';
-        mensagem += 'DADOS DA CRIANCA\n';
-        mensagem += 'Nome completo: ' + nomePaciente + '\n';
-        mensagem += 'Idade: ' + (idadePaciente || 'Nao informada') + '\n';
-      }
+  if (tipo === 'crianca') {
+    btnCrianca.classList.add('active');
+    btnAdulto.classList.remove('active');
+    secaoResp.style.display = 'block';
+    labelNome.textContent  = 'Nome completo da criança';
+    labelTel.textContent   = 'WhatsApp / Telefone';
+    labelEmail.textContent = 'E-mail';
+    grupoTelefone.style.display = 'none';
+    grupoEmail.style.display    = 'none';
+  } else {
+    btnAdulto.classList.add('active');
+    btnCrianca.classList.remove('active');
+    secaoResp.style.display = 'none';
+    labelNome.textContent  = 'Nome completo';
+    labelTel.textContent   = 'WhatsApp / Telefone';
+    labelEmail.textContent = 'E-mail';
+    grupoTelefone.style.display = '';
+    grupoEmail.style.display    = '';
+  }
+}
 
-      mensagem += '\nCONSULTA\n';
-      mensagem += 'Especialidade desejada: ' + (especialidade || 'Nao informada') + '\n';
-      mensagem += 'Modalidade: ' + (modalidade || 'Sem preferencia') + '\n';
+// ── HELPERS ───────────────────────────────────────────────
 
-      const url = 'https://wa.me/5521984480511?text=' + encodeURIComponent(mensagem);
-      window.open(url, '_blank', 'noopener,noreferrer');
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// ── ENVIO WHATSAPP ────────────────────────────────────────
+
+function enviarWhatsApp() {
+  const especialidade  = val('especialidade');
+  const modalidade     = val('modalidade');
+  const nomePaciente   = val('nomePaciente');
+  const nascimento     = val('nascimentoPaciente');
+
+  // Pega a idade calculada do span, se visível
+  const idadeEl = document.getElementById('idadePaciente');
+  const idadeTexto = (idadeEl && idadeEl.style.display !== 'none') ? idadeEl.textContent : 'Não informada';
+
+  if (tipoPaciente === 'adulto') {
+    if (!nomePaciente || !val('telefonePaciente') || !especialidade) {
+      alert('Por favor, preencha pelo menos nome, telefone e especialidade desejada.');
+      return;
     }
+  } else {
+    if (!val('nomeResponsavel') || !val('telefoneResponsavel') || !nomePaciente || !especialidade) {
+      alert('Por favor, preencha os dados do responsável, nome da criança e especialidade desejada.');
+      return;
+    }
+  }
+
+  let mensagem = '';
+  mensagem += 'SOLICITAÇÃO DE AGENDAMENTO\n';
+  mensagem += '----------------------------\n\n';
+
+  if (tipoPaciente === 'adulto') {
+    mensagem += 'Tipo de atendimento: Adulto / Adolescente\n\n';
+    mensagem += 'DADOS DO PACIENTE\n';
+    mensagem += 'Nome completo: '     + nomePaciente + '\n';
+    mensagem += 'CPF: '               + (val('cpfPaciente')   || 'Não informado') + '\n';
+    mensagem += 'Data de nascimento: '+ (nascimento           || 'Não informada') + '\n';
+    mensagem += 'Idade: '             + idadeTexto + '\n';
+    mensagem += 'WhatsApp: '          + val('telefonePaciente') + '\n';
+    mensagem += 'E-mail: '            + (val('emailPaciente') || 'Não informado') + '\n';
+  } else {
+    const idadeRespEl = document.getElementById('idadeResponsavel');
+    const idadeRespTexto = (idadeRespEl && idadeRespEl.style.display !== 'none') ? idadeRespEl.textContent : 'Não informada';
+
+    mensagem += 'Tipo de atendimento: Criança\n\n';
+    mensagem += 'DADOS DO RESPONSÁVEL\n';
+    mensagem += 'Nome do responsável: '      + val('nomeResponsavel') + '\n';
+    mensagem += 'CPF do responsável: '       + (val('cpfResponsavel')       || 'Não informado') + '\n';
+    mensagem += 'Nascimento do responsável: '+ (val('nascimentoResponsavel') || 'Não informado') + '\n';
+    mensagem += 'Idade do responsável: '     + idadeRespTexto + '\n';
+    mensagem += 'WhatsApp do responsável: '  + val('telefoneResponsavel') + '\n';
+    mensagem += 'E-mail do responsável: '    + (val('emailResponsavel')      || 'Não informado') + '\n\n';
+    mensagem += 'DADOS DA CRIANÇA\n';
+    mensagem += 'Nome completo: '      + nomePaciente + '\n';
+    mensagem += 'Data de nascimento: ' + (nascimento  || 'Não informada') + '\n';
+    mensagem += 'Idade: '              + idadeTexto + '\n';
+  }
+
+  mensagem += '\nCONSULTA\n';
+  mensagem += 'Especialidade desejada: ' + (especialidade  || 'Não informada') + '\n';
+  mensagem += 'Modalidade: '             + (modalidade     || 'Sem preferência') + '\n';
+
+  const url = 'https://wa.me/5521984480511?text=' + encodeURIComponent(mensagem);
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
   </script>
 </body>
 </html>
